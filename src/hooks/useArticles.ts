@@ -9,15 +9,21 @@ import {
 
 export const useArticles = (page: number) =>
   useQuery({
-    queryKey: ["/articles", page],
-    queryFn: () => getArticles(page),
+    queryKey: ["articles", page],
+    queryFn: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return getArticles(page);
+    },
     select: (res) => res.data,
   });
 
 export const usePublicArticles = (page: number) =>
   useQuery({
-    queryKey: ["/articles/public", page],
-    queryFn: () => getPublicArticles(page),
+    queryKey: ["articles/public", page],
+    queryFn: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return getPublicArticles(page);
+    },
     select: (res) => res.data,
   });
 

@@ -18,6 +18,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DeleteConfirmation } from "@/components/DeleteConfirmation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ArticleDetailPage() {
   const { id } = useParams();
@@ -77,7 +78,23 @@ export default function ArticleDetailPage() {
     }
   };
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isLoading) return;
+  <div className="max-w-4xl mx-auto px-4 py-10 min-h-screen">
+    <Skeleton className="w-32 h-9 mb-4" />
+
+    <Skeleton className="w-full h-80 rounded-lg mb-6" />
+    <Skeleton className="w-3/4 h-10 mb-2" />
+    <Skeleton className="w-1/3 h-4 mb-6" />
+
+    <div className="space-y-4 mb-10">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-5/6" />
+      <Skeleton className="h-4 w-2/3" />
+    </div>
+
+    <Skeleton className="w-40 h-10 mb-2" />
+    <Skeleton className="w-24 h-10" />
+  </div>;
   if (isError || !data)
     return (
       <p className="text-center mt-10 text-red-500">Gagal memuat artikel.</p>

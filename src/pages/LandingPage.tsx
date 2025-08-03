@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { usePublicArticles } from "@/hooks/useArticles";
 import { useUserStore } from "@/hooks/useUserStore";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function LandingPage() {
         <div className="mt-6 flex justify-center">
           <Button
             onClick={handleAllArticles}
-            className="bg-[#4D96FF] hover:bg-[#3b7ddb] px-6 py-3 text-white rounded-full shadow-lg text-lg"
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-3 text-white rounded-full shadow-lg text-lg"
           >
             Lihat Semua Artikel
           </Button>
@@ -53,7 +54,28 @@ export default function LandingPage() {
       </motion.div>
 
       {isLoading ? (
-        <p className="text-center text-gray-500">Loading...</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="rounded-xl shadow-lg backdrop-blur-lg bg-white/70 overflow-hidden"
+            >
+              <Skeleton className="w-full h-48" />
+              <CardContent className="p-6 space-y-3">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+                <div className="flex justify-between items-center mt-4">
+                  <Skeleton className="h-4 w-1/3" />
+                  <Skeleton className="h-8 w-20 rounded-full" />
+                </div>
+              </CardContent>
+            </motion.div>
+          ))}
+        </div>
       ) : isError ? (
         <p className="text-center text-red-500">Gagal memuat data.</p>
       ) : (
