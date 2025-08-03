@@ -1,9 +1,5 @@
 export default function LandingPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center">
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 text-center">
-        Welcome to Travel Article App 🌍
-      </h1>
-    </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 px-4"></div>
   );
 }
