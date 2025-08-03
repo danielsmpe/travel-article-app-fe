@@ -70,7 +70,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] p-4">
       <Card className="w-full max-w-sm shadow-xl">
         <CardHeader>
           <CardTitle className="text-center">

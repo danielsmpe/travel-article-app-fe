@@ -17,9 +17,9 @@ export default function Header() {
   const logout = useUserStore((state) => state.logout);
 
   return (
-    <header className="w-full bg-white shadow-sm px-4 py-3 flex justify-between items-center sticky top-0 z-50">
-      <Link to="/" className="text-2xl font-bold text-indigo-600">
-        TravelApp
+    <header className="w-full bg-white shadow-sm px-8 py-3 flex justify-between items-center sticky top-0 z-50">
+      <Link to="/" className="text-xl font-bold text-gray-800">
+        Travel Article App
       </Link>
 
       {!isAuthPage && (
@@ -43,7 +43,7 @@ export default function Header() {
             </DropdownMenu>
           ) : (
             <Link to="/auth">
-              <Button variant="outline">Login</Button>
+              <Button variant="default">Login</Button>
             </Link>
           )}
         </div>
