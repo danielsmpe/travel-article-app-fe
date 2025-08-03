@@ -21,7 +21,7 @@ A modern frontend built with React, styled with Tailwind CSS and Shadcn UI, desi
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/travel-article-app-fe.git
+git clone https://github.com/danielsmpe/travel-article-app-fe.git
 cd travel-article-app-fe
 
 # 2. Install dependencies
