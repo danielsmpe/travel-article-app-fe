@@ -4,6 +4,20 @@ import { useUserStore } from "@/hooks/useUserStore";
 import { format } from "date-fns";
 import { useArticleById, useDeleteArticle } from "@/hooks/useArticles";
 import { toast } from "sonner";
+import { useState } from "react";
+import {
+  useAddComment,
+  useComments,
+  useDeleteComment,
+  useUpdateComment,
+} from "@/hooks/useComments";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { DeleteConfirmation } from "@/components/DeleteConfirmation";
 
 export default function ArticleDetailPage() {
   const { id } = useParams();
@@ -14,16 +28,41 @@ export default function ArticleDetailPage() {
   const { mutate: deleteArticle, isPending: isDeleting } = useDeleteArticle(
     id!
   );
+  const { data: commentsData } = useComments(id!);
+  const { mutate: addComment, isPending: isAdding } = useAddComment(id!);
+  const { mutate: updateComment } = useUpdateComment();
+  const { mutate: deleteComment } = useDeleteComment();
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
-  if (isError || !data)
-    return (
-      <p className="text-center mt-10 text-red-500">Gagal memuat artikel.</p>
+  const [newComment, setNewComment] = useState("");
+  const [editingComment, setEditingComment] = useState<{
+    id: string;
+    content: string;
+  } | null>(null);
+
+  const handleAddComment = () => {
+    if (!newComment.trim()) return;
+    toast.promise(
+      new Promise((resolve, reject) => {
+        addComment(
+          { content: newComment },
+          {
+            onSuccess: () => {
+              setNewComment("");
+              resolve(true);
+            },
+            onError: reject,
+          }
+        );
+      }),
+      {
+        loading: "Mengirim komentar...",
+        success: "Komentar ditambahkan!",
+        error: "Gagal mengirim komentar.",
+      }
     );
+  };
 
-  const isAuthor = user?.username === data.author.username;
-
-  const handleDelete = () => {
+  const handleDeleteArticle = () => {
     const confirmDelete = confirm("Yakin ingin menghapus artikel ini?");
     if (confirmDelete) {
       deleteArticle(undefined, {
@@ -38,18 +77,25 @@ export default function ArticleDetailPage() {
     }
   };
 
+  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isError || !data)
+    return (
+      <p className="text-center mt-10 text-red-500">Gagal memuat artikel.</p>
+    );
+
+  const isAuthor = user?.username === data.author.username;
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-10 min-h-screen">
-      <div className="top-0 left-0">
-        <Button
-          variant="outline"
-          type="button"
-          onClick={() => navigate(-1)}
-          className="mb-4"
-        >
-          ← Kembali
-        </Button>
-      </div>
+      <Button
+        variant="outline"
+        type="button"
+        onClick={() => navigate(-1)}
+        className="mb-4"
+      >
+        ← Kembali
+      </Button>
+
       <img
         src={data.thumbnail}
         alt={data.title}
@@ -70,7 +116,7 @@ export default function ArticleDetailPage() {
           </Button>
           <Button
             variant="destructive"
-            onClick={handleDelete}
+            onClick={handleDeleteArticle}
             disabled={isDeleting}
           >
             {isDeleting ? "Menghapus..." : "Delete"}
@@ -78,13 +124,145 @@ export default function ArticleDetailPage() {
         </div>
       )}
 
-      {/* Komentar (sementara dummy) */}
+      {/* Komentar */}
       <div className="mt-10">
         <h2 className="text-2xl font-semibold mb-3">Komentar</h2>
-        <p className="text-sm text-gray-400">
-          Belum ada komentar untuk artikel ini.
-        </p>
+
+        {/* Form komentar */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Tulis komentar..."
+            rows={3}
+            className="flex-1 border rounded-md p-2"
+          />
+          <Button onClick={handleAddComment} disabled={isAdding}>
+            {isAdding ? "Mengirim..." : "Kirim"}
+          </Button>
+        </div>
+
+        {/* Daftar komentar */}
+        {commentsData?.data?.length > 0 ? (
+          <div className="space-y-4">
+            {commentsData.data.map((comment: any) => {
+              const isMine = comment.author.username === user?.username;
+
+              return (
+                <div
+                  key={comment.id}
+                  className="p-4 border rounded-md bg-gray-50 relative"
+                >
+                  <p className="text-sm text-gray-700 whitespace-pre-line">
+                    {comment.content}
+                  </p>
+                  <div className="text-xs text-gray-500 mt-2">
+                    oleh <strong>{comment.author.username}</strong>
+                  </div>
+
+                  {isMine && (
+                    <div className="absolute top-2 right-2 flex gap-2 text-xs">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() =>
+                          setEditingComment({
+                            id: comment.id,
+                            content: comment.content,
+                          })
+                        }
+                      >
+                        Edit
+                      </Button>
+                      <DeleteConfirmation
+                        onConfirm={() =>
+                          toast.promise(
+                            new Promise((resolve, reject) => {
+                              deleteComment(comment.id, {
+                                onSuccess: () => resolve(true),
+                                onError: reject,
+                              });
+                            }),
+                            {
+                              loading: "Menghapus komentar...",
+                              success: "Komentar dihapus!",
+                              error: "Gagal menghapus komentar.",
+                            }
+                          )
+                        }
+                        trigger={
+                          <Button size="sm" variant="destructive">
+                            Hapus
+                          </Button>
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="text-gray-400 text-sm">Belum ada komentar.</p>
+        )}
       </div>
+
+      {/* Modal edit komentar */}
+      <Dialog
+        open={!!editingComment}
+        onOpenChange={() => setEditingComment(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Komentar</DialogTitle>
+          </DialogHeader>
+          <textarea
+            value={editingComment?.content ?? ""}
+            onChange={(e) =>
+              setEditingComment((prev) =>
+                prev ? { ...prev, content: e.target.value } : null
+              )
+            }
+            className="w-full border rounded-md p-2 mt-2"
+            rows={4}
+          />
+          <div className="flex justify-end gap-2 mt-4">
+            <Button variant="outline" onClick={() => setEditingComment(null)}>
+              Batal
+            </Button>
+            <Button
+              onClick={() => {
+                if (!editingComment?.content.trim()) return;
+
+                toast.promise(
+                  new Promise((resolve, reject) => {
+                    updateComment(
+                      {
+                        id: editingComment.id,
+                        content: editingComment.content,
+                      },
+                      {
+                        onSuccess: () => {
+                          setEditingComment(null);
+                          resolve(true);
+                        },
+                        onError: reject,
+                      }
+                    );
+                  }),
+                  {
+                    loading: "Menyimpan komentar...",
+                    success: "Komentar diperbarui!",
+                    error: "Gagal memperbarui komentar.",
+                  }
+                );
+              }}
+            >
+              Simpan
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
