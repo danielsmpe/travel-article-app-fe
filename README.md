@@ -1,69 +1,78 @@
-# React + TypeScript + Vite
+# 🖥️ Travel Article App – Frontend (Vite + React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern frontend built with React, styled with Tailwind CSS and Shadcn UI, designed to interact with the Travel Article API.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+- Vite (React + TypeScript)
+- Tailwind CSS + Shadcn UI
+- React Router DOM – Routing
+- React Query – Data fetching & caching
+- Zustand – Lightweight global state
+- Zod – Schema validation
+- Framer Motion – Animations
+- Axios – API calls
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Installation & Setup
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/travel-article-app-fe.git
+cd travel-article-app-fe
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 2. Install dependencies
+npm install
+
+# 3. Create environment file (.env)
+# Example:
+VITE_API_URL=http://localhost:3000
+
+
+# 4. Build the production-ready app
+npm run build
+
+# 5. Preview the built site (optional, for testing)
+npm run preview
+
+# --- OR ---
+
+# (Dev Only) Start the development server
+npm run dev
+
+---
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Pastikan backend berjalan di URL yang sama dengan VITE_API_URL.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📂 Project Structure
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+
+src/
+├── components/
+├── hooks/
+├── lib/
+├── pages/
+├── schemas/
+├── App.tsx
+└── main.tsx
+
+```
+
+---
+
+## 📚 Features
+
+- 🔓 Public Access: Landing page & article preview for all users
+- 🔐 Authentication-aware: Create, edit, and delete only if logged in
+- ✍️ Comment System: Add, update, and delete comments on articles
+- 📄 Form Validation: Robust validation using Zod
+- 🪄 Beautiful UI: Styled with Tailwind + Shadcn, animated with Framer Motion
+- 🧱 Skeleton Loading: Smooth UX during data fetching
+- ⚙️ Modular & Clean Architecture: Easy to scale and maintain
+
+---
