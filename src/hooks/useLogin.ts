@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useUserStore } from "./useUserStore";
 import API from "@/api/axios";
+import { getMe } from "@/api/auth.api"; // pastikan kamu punya ini
 
 type LoginPayload = {
   username: string;
@@ -13,12 +14,15 @@ export function useLogin() {
   return useMutation({
     mutationFn: async (data: LoginPayload) => {
       const res = await API.post("/auth/login", data);
-      console.log("Login response:", res.data);
-      return res.data;
+      const access_token = res.data.access_token;
+      localStorage.setItem("access_token", access_token);
+
+      const me = await getMe();
+
+      return me.data;
     },
-    onSuccess: (data) => {
-      setUser(data.user);
-      localStorage.setItem("accessToken", data.access_token);
+    onSuccess: (userData) => {
+      setUser(userData);
       window.location.href = "/";
     },
   });

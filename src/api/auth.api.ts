@@ -9,4 +9,4 @@ export const register = (data: {
   password: string;
 }) => API.post("/auth/register", data);
 
-export const logout = () => API.post("/auth/logout");
+export const getMe = () => API.get("/users/me");

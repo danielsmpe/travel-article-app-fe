@@ -14,7 +14,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-
 import { useLogin } from "@/hooks/useLogin";
 import { useRegister } from "@/hooks/useRegister";
 
@@ -75,29 +74,13 @@ export default function AuthPage() {
       <Card className="w-full max-w-sm shadow-xl">
         <CardHeader>
           <CardTitle className="text-center">
-            {mode === "login" ? "Masuk ke Akun Anda" : "Buat Akun Baru"}
+            {mode === "login" ? "Login ke Akun Anda" : "Buat Akun Baru"}
           </CardTitle>
           <CardDescription className="text-center">
             {mode === "login"
-              ? "Masukkan username dan kata sandi Anda untuk masuk."
+              ? "Masukkan username dan kata sandi Anda untuk Login."
               : "Isi formulir di bawah untuk membuat akun."}
           </CardDescription>
-          <div className="mt-4 flex justify-center gap-2">
-            <Button
-              variant={mode === "login" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setMode("login")}
-            >
-              Masuk
-            </Button>
-            <Button
-              variant={mode === "register" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setMode("register")}
-            >
-              Daftar
-            </Button>
-          </div>
         </CardHeader>
 
         <CardContent>
@@ -128,7 +111,7 @@ export default function AuthPage() {
               </div>
             )}
             <Button type="submit" className="w-full">
-              {mode === "login" ? "Masuk" : "Daftar"}
+              {mode === "login" ? "Login" : "Register"}
             </Button>
           </form>
         </CardContent>
@@ -142,7 +125,7 @@ export default function AuthPage() {
                 onClick={() => setMode("register")}
                 type="button"
               >
-                Daftar sekarang
+                Register sekarang
               </button>
             </span>
           ) : (
@@ -153,7 +136,7 @@ export default function AuthPage() {
                 onClick={() => setMode("login")}
                 type="button"
               >
-                Masuk
+                Login
               </button>
             </span>
           )}
