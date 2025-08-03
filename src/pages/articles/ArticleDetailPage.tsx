@@ -124,11 +124,10 @@ export default function ArticleDetailPage() {
         </div>
       )}
 
-      {/* Komentar */}
+      {/* Comments */}
       <div className="mt-10">
         <h2 className="text-2xl font-semibold mb-3">Komentar</h2>
 
-        {/* Form komentar */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <textarea
             value={newComment}
@@ -142,7 +141,6 @@ export default function ArticleDetailPage() {
           </Button>
         </div>
 
-        {/* Daftar komentar */}
         {commentsData?.data?.length > 0 ? (
           <div className="space-y-4">
             {commentsData.data.map((comment: any) => {
@@ -207,7 +205,6 @@ export default function ArticleDetailPage() {
         )}
       </div>
 
-      {/* Modal edit komentar */}
       <Dialog
         open={!!editingComment}
         onOpenChange={() => setEditingComment(null)}

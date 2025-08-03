@@ -30,7 +30,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] px-6 py-16">
-      {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -53,7 +52,6 @@ export default function LandingPage() {
         </div>
       </motion.div>
 
-      {/* Article Cards */}
       {isLoading ? (
         <p className="text-center text-gray-500">Loading...</p>
       ) : isError ? (

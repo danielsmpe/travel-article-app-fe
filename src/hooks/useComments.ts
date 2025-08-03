@@ -13,7 +13,6 @@ export const useComments = (articleId: string, page = 1) => {
   });
 };
 
-// Tambah komentar baru
 export const useAddComment = (articleId: string) => {
   const queryClient = useQueryClient();
   return useMutation({

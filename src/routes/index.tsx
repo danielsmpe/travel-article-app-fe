@@ -6,6 +6,7 @@ import ArticleListPage from "@/pages/articles/ArticleListPage";
 import ArticleCreatePage from "@/pages/articles/ArticleCreatePage";
 import ArticleDetailPage from "@/pages/articles/ArticleDetailPage";
 import ArticleEditPage from "@/pages/articles/ArticleEditPage";
+import MyArticlePage from "@/pages/articles/MyArticlePage";
 
 const AllRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AllRoutes = () => {
 
       <Route element={<ProtectedRoute />}>
         <Route path="/articles" element={<ArticleListPage />} />
+        <Route path="/my-articles" element={<MyArticlePage />} />
         <Route path="/articles/create" element={<ArticleCreatePage />} />
         <Route path="/articles/:id" element={<ArticleDetailPage />} />
         <Route path="/articles/:id/edit" element={<ArticleEditPage />} />

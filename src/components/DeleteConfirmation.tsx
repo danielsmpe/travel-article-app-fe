@@ -1,5 +1,3 @@
-// DeleteConfirmation.tsx
-
 import {
   Dialog,
   DialogTrigger,
